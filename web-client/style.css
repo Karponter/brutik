@@ -1,0 +1,52 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%; 
+}
+
+.arena {
+  position: absolute;
+  height: 400px;
+  width: 700px;
+  background-color: #aaaaaa;
+}
+
+.top-bar {
+  background-color: #888888; 
+  color: white;
+  font-size: 18px;
+  font-family: Verdana;
+}
+
+.player-bar {
+  float: left;
+  width: 50%;
+}
+
+.player-bar .name {
+  padding: 5px;
+}
+
+.player-bar .health {
+  width: 90%;
+  background-color: red;
+  height: 12px;
+}
+
+.player {
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  top: 222px;
+  transition: 0.5s linear left;
+}
+
+.player#pl1 {
+  background: blue;
+  left: 100px;
+}
+
+.player#pl2 {
+  background: green;
+  left: 600px;
+}
