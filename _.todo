@@ -1,6 +1,6 @@
  ✔ Put here event queue from hola-laptop @done (17-05-05 01:04)
- ☐ Add postprocess callback after hooks for EventQueue::tick
- ☐ Add tick-end callback for EventQueue::tick
+ ✔ Add postprocess callback after hooks for EventQueue::tick @done (17-05-05 01:53)
+ ✔ Add tick-end callback for EventQueue::tick @done (17-05-05 01:59)
  ☐ Add player death check
  ☐ Add timeout-win check
  ✔ Launch Arena from API @done (17-05-04 23:29)

@@ -7,17 +7,23 @@ class Actor {
 
   constructor(options) {
     options = options || {};
-    option.stats = option.stats || {};
+    options.stats = options.stats || {};
 
     this.maxHealth = 30;
     this.health = 30;
 
     this.stats = Object.assign({}, options.stats);
     this.initiative = mathUtils.initiative.cap.of(this);
+
+    this.opponents = [];
   }
 
-  deside(opponents) {
-    const target = abstractUtils.randomArrayUnit(opponents);
+  setOpponents(opponents) {
+    this.opponents =opponents;
+  }
+
+  decide() {
+    const target = abstractUtils.randomArrayUnit(this.opponents);
     return ['move'];
   }
 

@@ -14,7 +14,10 @@ class InitiativeQueue {
     });
   }
 
-  // Returns id of top-initiative player
+  /**
+   * Returns id of top-initiative player
+   * @return {String} -- players identifier
+   */
   top() {
     return this.queue[0].id;
   }
@@ -22,7 +25,7 @@ class InitiativeQueue {
   // Shifts queue.
   // Reduces top-player's initiative and recalculate it's position in 
   shift() {
-    const pl = this.top();
+    const pl = this.queue[0];
     // reset initiative if it falls too much
     if (pl.initiative <= 0)
       pl.initiative += pl.initiativeCap;

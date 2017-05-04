@@ -5,6 +5,22 @@ const InitiativeQueue = require('./initiative-queue');
 const EventsQueue = require('./event-queue');
 const Motion = require('./motion');
 
+// Returns array with values of a hash
+const objectValues = obj =>
+  Object.keys(obj).map(k => obj[k]);
+
+// Targets all players to each other
+const interpolateOpponents = (actors, stratagy) => {
+  actors.forEach(actor => {
+    actor.setOpponents(actors.filter(a => a.id != actor.id));
+  });
+}
+
+const eventTypes = ['move', 'hit'];
+
+const registerEventTypes = queue =>
+  eventTypes.forEach(t => queue.register(t));  
+
 class Arena {
 
   /**
@@ -12,12 +28,18 @@ class Arena {
    * @param  {Array} opt.players  -- list of players on the arena
    */
   constructor(opt) {
-    this.players = {};
+    // keep both list and hash of players
+    this.playersHash = {};
+    this.players = [];
     opt.players.forEach(pl => {
-      this.players[pl.id] = new Player(pl);
+      const player = new Player(pl);
+      this.playersHash[pl.id] = player;
+      this.players.push(player);
     });
-    this.initiativeQueue = new InitiativeQueue(this.players);
+    interpolateOpponents(this.players);
+    this.initiativeQueue = new InitiativeQueue(objectValues(this.players));
     this.events = new EventsQueue();
+    registerEventTypes(this.events);
     this.scenario = [];
   }
 
@@ -33,11 +55,11 @@ class Arena {
    */
   launch(cb) {
     const _arena = this;
-    while (this.playersAlive() > 1) {
+    while (this.playersAlive() > 1 && !this.events.isExhausted()) {
       // adding new events if no nothing
       if (this.events.isEmpty()) {
         const pl = this.shiftInitiative();
-        const plans = pl.deside();
+        const plans = pl.decide();
         // reduce plans list to postprocess hell and execute
         plans.reduceRight((acc, action) => {
           return () => {
@@ -65,7 +87,7 @@ class Arena {
   shiftInitiative() {
     const playerId = this.initiativeQueue.top();
     this.initiativeQueue.shift();
-    return this.players[playerId];
+    return this.playersHash[playerId];
   }
 
 }

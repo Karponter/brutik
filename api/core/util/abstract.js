@@ -25,7 +25,7 @@ const nestKeys = object => {
 /**
  * Returns random unit from array
  */
-function randomArrayUnit (array) {
+function randomArrayUnit(array) {
   const idx = Math.floor(Math.random()*array.length);
   return array[idx];
 }
