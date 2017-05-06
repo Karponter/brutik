@@ -21,9 +21,10 @@ const pl2 = {
   }
 };
 
-app.get('/generate', (req, res) => {
+// app.get('/generate', (req, res) => {
   const arena = new Arena({players: [pl1, pl2]});
-  arena.launch(scenario => res.json(scenario));
-});
+  arena.launch();
+  // arena.launch(scenario => res.json(scenario));
+// });
 
 module.exports = app;

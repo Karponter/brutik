@@ -16,7 +16,7 @@ const interpolateOpponents = (actors, stratagy) => {
   });
 }
 
-const eventTypes = ['move', 'hit'];
+const eventTypes = ['move', 'hit', 'damage'];
 
 const registerEventTypes = queue =>
   eventTypes.forEach(t => queue.register(t));  
@@ -31,15 +31,19 @@ class Arena {
     // keep both list and hash of players
     this.playersHash = {};
     this.players = [];
-    opt.players.forEach(pl => {
-      const player = new Player(pl);
-      this.playersHash[pl.id] = player;
-      this.players.push(player);
-    });
-    interpolateOpponents(this.players);
-    this.initiativeQueue = new InitiativeQueue(objectValues(this.players));
+
     this.events = new EventsQueue();
     registerEventTypes(this.events);
+    
+    opt.players.forEach(pl => {
+      const player = new Player(pl);
+      player.hook(this.events);
+      this.playersHash[player.id] = player;
+      this.players.push(player);
+    });
+    
+    interpolateOpponents(this.players);
+    this.initiativeQueue = new InitiativeQueue(this.players);
     this.scenario = [];
   }
 
@@ -63,7 +67,7 @@ class Arena {
         // reduce plans list to postprocess hell and execute
         plans.reduceRight((acc, action) => {
           return () => {
-            _arena.events.emit(action, {}, acc)
+            _arena.events.emit(action.title, action.data, acc)
           };
         }, null)();
       }

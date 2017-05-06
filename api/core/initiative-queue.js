@@ -19,7 +19,7 @@ class InitiativeQueue {
    * @return {String} -- players identifier
    */
   top() {
-    return this.queue[0].id;
+    return this.queue[0].player;
   }
 
   // Shifts queue.
@@ -29,15 +29,13 @@ class InitiativeQueue {
     // reset initiative if it falls too much
     if (pl.initiative <= 0)
       pl.initiative += pl.initiativeCap;
+    pl.initiative -= 10;
     // bubble player down in initiative queue
-    for (var i = 1; i < this.queue.length; i++) {
-      if (pl.initiative > this.queue[i].initiative) {
-        this.queue[i-1] = this.queue[i];
-      } else {
-        this.queue[i-1] = pl;
-        break;
-      } 
-    }
+    let i = 1; 
+    do {
+      this.queue[i-1] = this.queue[i];
+    } while (++i < this.queue.length && pl.initiative < this.queue[i].initiative);
+    this.queue[i-1] = pl;
   }
 
 }

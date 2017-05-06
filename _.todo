@@ -1,9 +1,10 @@
  ✔ Put here event queue from hola-laptop @done (17-05-05 01:04)
  ✔ Add postprocess callback after hooks for EventQueue::tick @done (17-05-05 01:53)
  ✔ Add tick-end callback for EventQueue::tick @done (17-05-05 01:59)
+ ✔ Launch Arena from API @done (17-05-04 23:29)
  ☐ Add player death check
  ☐ Add timeout-win check
- ✔ Launch Arena from API @done (17-05-04 23:29)
+ ✔ Player desision must generate more detailed events @done (17-05-07 00:55)
 
  ☐ Timer logic:
    Every event type has `timeSpent` in configuration. It defines how much time takes to perform this action.
