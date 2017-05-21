@@ -30,4 +30,31 @@ function randomArrayUnit(array) {
   return array[idx];
 }
 
-module.exports = { nestKeys, randomArrayUnit };
+/**
+ * Rolls a chance, returns boolean
+ */
+const rollWithChance = chance =>
+  Math.random() <= chance;
+
+/**
+ * Returns random key from Puasson's veriety hash.
+ * Key's value correlates possibility of it's happening.
+ * @param  {Object} veriety   -- veriety hash contains key's appear possibility
+ * @return {String}           -- one of veriety's keys
+ */
+const rollVariety = veriety => {
+  const summ = Object.keys(veriety).map(k => veriety[k]).reduce((a, v) => a+v, 0);
+  let randomValue =  Math.random() * (summ);
+  let tempSumm = 0;
+  let result = null;
+  Object.keys(veriety).some(key => {
+    tempSumm += veriety[key];
+    if(randomValue < tempSumm){
+      result = key;
+      return true;
+    }
+  });
+  return result;
+};
+
+module.exports = { nestKeys, randomArrayUnit, rollWithChance, rollVariety };

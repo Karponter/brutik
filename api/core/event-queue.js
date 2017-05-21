@@ -1,5 +1,6 @@
 'use strict';
 const assert = require('assert');
+const EventTimer = ireq.core('timer').FightEventTimer;
 
 /**
  * Event queue and listeners
@@ -11,7 +12,8 @@ class EventQueue {
         this._queue = [];
         this._registered = {};
         this._listeners = {};
-        this.endurence = 10000;
+        this.ttl = 1000;
+        this.timer = new EventTimer();
     }
 
     /**
@@ -36,19 +38,18 @@ class EventQueue {
      * Throws error, if `event` is not registered in this queue.
      * @param  event {String} -- event type to check
      */
-    assertRegistrer(event) {
+    assertRegistred(event) {
         assert(this.check(event), `Oops, event ${event} is not registerd`);
     }
 
     /**
      * Emits event of specified type and puts it to queue
      * Only registered can be emitted
-     * @param  type {String}     -- emitted event type
-     * @param  data {Object}     -- data object
+     * @param  event {Event}     -- emitted event
      */
-    emit(type, data, callback) {
-        this.assertRegistrer(type);
-        this._queue.push({type, data, callback});
+    emit(event) {
+        this.assertRegistred(event.type);
+        this._queue.push(event);
     }
 
     /**
@@ -57,7 +58,7 @@ class EventQueue {
      * @param  callback {Function}  -- callback function
      */
     listen(event, callback) {
-        this.assertRegistrer(event);
+        this.assertRegistred(event);
         this._listeners[event].push(callback);
     }
 
@@ -67,10 +68,15 @@ class EventQueue {
      * @return {Array}              -- list of values every hook reurned
      */
     tick(callback) {
-        if (!this.endurence) return [];
-        this.endurence--;
+        if (!this.ttl) return [];
+        this.ttl--;
         const event = this._queue.shift();
-        const result = this._listeners[event.type].map(cb => cb(event.data));
+        // time logging before hooks fired
+        const _start = this.timer.getTime('s');
+        const _end = this.timer.tick(event, 's');
+        event.logTime(_start, _end);
+        // listeners hooking
+        const result = this._listeners[event.type].map(cb => cb(event));
         // callbacks hooking
         event.callback && event.callback();
         callback && callback(event);
@@ -100,7 +106,7 @@ class EventQueue {
      * Checks if queue execution times limit was reached
      */
     isExhausted() {
-        return !this.endurence;
+        return !this.ttl;
     }
 }
 

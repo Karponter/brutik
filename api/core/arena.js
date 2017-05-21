@@ -3,7 +3,7 @@
 const Player = require('./actor');
 const InitiativeQueue = require('./initiative-queue');
 const EventsQueue = require('./event-queue');
-const Motion = require('./motion');
+const Timer = require('./timer').FightEventTimer;
 
 // Returns array with values of a hash
 const objectValues = obj =>
@@ -16,8 +16,8 @@ const interpolateOpponents = (actors, stratagy) => {
   });
 }
 
-const eventTypes = ['move', 'hit', 'damage'];
-
+const eventTypes = ['move', 'hit', 'damage', 'dodge', 'block'];
+// Registeres list of event types on event queue
 const registerEventTypes = queue =>
   eventTypes.forEach(t => queue.register(t));  
 
@@ -45,6 +45,7 @@ class Arena {
     interpolateOpponents(this.players);
     this.initiativeQueue = new InitiativeQueue(this.players);
     this.scenario = [];
+    this.timer = new Timer();
   }
 
   /**
@@ -55,25 +56,46 @@ class Arena {
   }
 
   /**
+   * Returns amount of players in consiouness
+   */
+  playersStanding() {
+    return this.players.filter(pl => pl.isStanding()).length; 
+  }
+
+  /**
    * Launch fight
    */
   launch(cb) {
     const _arena = this;
-    while (this.playersAlive() > 1 && !this.events.isExhausted()) {
-      // adding new events if no nothing
-      if (this.events.isEmpty()) {
-        const pl = this.shiftInitiative();
-        const plans = pl.decide();
-        // reduce plans list to postprocess hell and execute
-        plans.reduceRight((acc, action) => {
-          return () => {
-            _arena.events.emit(action.title, action.data, acc)
-          };
-        }, null)();
-      }
-      this.events.tick(event => {
-        _arena.confirmMotion(new Motion(event));
-      });
+    console.log(`- initial players: ${this.playersStanding()}`);
+    console.log(`- EQ: exhausted: ${this.events.isExhausted()}`);
+
+    // adding new events if queue isempty
+    function kickSomeone() {
+      const pl = _arena.shiftInitiative();
+      const plans = pl.decide();
+      // events chaining loop
+      const list = [];
+      let event, nextEvent = null;
+      plans.reduceRight((prev, curr) => {
+        if (prev)
+          curr.callback = () => _arena.events.emit(prev);
+        return curr;
+      }, null);
+      // events emitting
+      _arena.events.emit(plans[0]);
+    }
+
+    function eventProcessor(event) {
+      const _tgt = event.target ? event.target.id : 'X';
+      console.log(event.type, event.actor.id, '==>', _tgt, `(${event.value})`);
+      _arena.confirmMotion(event);
+    }
+
+    while (this.playersStanding() > 1 && !this.events.isExhausted()) {
+      if (this.events.isEmpty())
+        kickSomeone();
+      this.events.tick(eventProcessor);
     }
     cb && cb(this.scenario);
   }
