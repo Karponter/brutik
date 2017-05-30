@@ -1,8 +1,13 @@
 'use strict';
 
-const abstractUtils = require('./util/abstract');
-const mathUtils = require('./util/math');
-const targeting = require('./util/targeting');
+const ireq = require('ireq');
+
+const abstractUtils = ireq.util('abstract');
+const mathUtils = ireq.util('math');
+const targeting = ireq.util('targeting');
+
+const weapon = ireq.item('weapon');
+const fist = weapon.fist;
 
 const Event = require('./events/event');
 const MoveEvent = require('./events/move');
@@ -50,6 +55,9 @@ class Actor {
       leftLeg: 'ok',
       rightLeg: 'ok'
     };
+
+    this.inventory = {};
+
     this.opponents = [];
     this._exhaustmentTs = 0;
   }
@@ -136,6 +144,12 @@ class Actor {
   
   isStanding() {
     return this.isAlive() && this.endurance > 0;
+  }
+
+  getWeapon() {
+    if (this.inventory.rightHand)
+      return this.inventory.rightHand;
+    return fist;
   }
 }
 

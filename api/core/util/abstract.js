@@ -37,18 +37,26 @@ const rollWithChance = chance =>
   Math.random() <= chance;
 
 /**
- * Returns random key from Puasson's veriety hash.
- * Key's value correlates possibility of it's happening.
- * @param  {Object} veriety   -- veriety hash contains key's appear possibility
- * @return {String}           -- one of veriety's keys
+ * Returns random float valua from range
+ * @param  {Array} range  -- [from, to] array
+ * @return {Number}       -- random arbitrary
  */
-const rollVariety = veriety => {
-  const summ = Object.keys(veriety).map(k => veriety[k]).reduce((a, v) => a+v, 0);
+const rollRange = range =>
+  Math.random()*(range[1]-range[0])+range[0];
+
+/**
+ * Returns random key from Puasson's variety hash.
+ * Key's value correlates possibility of it's happening.
+ * @param  {Object} variety   -- variety hash contains key's appear possibility
+ * @return {String}           -- one of variety's keys
+ */
+const rollVariety = variety => {
+  const summ = Object.keys(variety).map(k => variety[k]).reduce((a, v) => a+v, 0);
   let randomValue =  Math.random() * (summ);
   let tempSumm = 0;
   let result = null;
-  Object.keys(veriety).some(key => {
-    tempSumm += veriety[key];
+  Object.keys(variety).some(key => {
+    tempSumm += variety[key];
     if(randomValue < tempSumm){
       result = key;
       return true;
@@ -57,4 +65,23 @@ const rollVariety = veriety => {
   return result;
 };
 
-module.exports = { nestKeys, randomArrayUnit, rollWithChance, rollVariety };
+/**
+ * Reads objects 1st level values and revertes them to keyed hashes.
+ * Original object is placed into `legend` field.
+ * Hash keys contains array indexes in approproate legend.
+ * 0-index elements are placeholded and undefined in legend.
+ * @param  {[type]} object [description]
+ * @return {[type]}        [description]
+ */
+const hashObject = object => {
+  const res = {legend: object};
+  for (let key in object) {
+    const list = object[key];
+    const hash = {};
+    list.forEach((e, i) => hash[e] = i+1);
+    res[key] = hash;
+  }
+  return res;
+};
+
+module.exports = { nestKeys, randomArrayUnit, rollWithChance, rollVariety, hashObject, rollRange, };

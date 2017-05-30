@@ -16,6 +16,7 @@
    Every event type has `timeSpent` in configuration. It defines how much time takes to perform this action.
    Every Arena has a leaking bucket that breaks scenario calculation cycle when time limit is reached.
  ✔ Attach timer to arena, make `now` calculations in `Actor::exhaust` @done (17-05-21 07:18)
+ ☐ Allow multiple damage types while rolling damage
 
    Inventory:
      ☐ Implement inventory slots

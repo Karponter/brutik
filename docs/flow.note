@@ -1,0 +1,36 @@
+
+# Game flow notes
+
+The game flows are described in this document from the viewpoint of an ordinary user.
+
+## Environment
+
+You are a guild leader. You have initial team members. You live in a wierd world where everything is ruled by guilds. The more powerful your guild is -- the more you can decide in the world. To gain more power you have to fight other guilds and gain honour.
+
+## New player (registration)
+
+- Demo fight
+- Default registration form
+- Email verification
+- Single-actor customization
+- Single-actor fights sequece (allows user to get known with in-fight basics)
+- Default team generation
+  - Chain of questions to define what user prefares in-life.
+  - User-related bonuses customization
+- First healing
+- Default game flow
+
+## Team generation
+
+## Levelup
+
+## Skillup
+
+## Shopping
+
+## Recruiting
+
+## Learning
+
+## Birth
+
