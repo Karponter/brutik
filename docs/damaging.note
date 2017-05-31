@@ -1,0 +1,80 @@
+
+# Damaging hint
+
+All actors have both `endurence` and `health`. Also actors have different bodyparts to target and damage. Each bodypart has it's `goodness`.
+
+## Health
+
+In opposit of classic games, you can not be hitted directly to your health. You loose it leakly in case of some effects (e.g. `Deep wound` earned in a fight).
+
+If actor is out of health -- he is dead. As you know -- dead can't fight. And actually do anything. This means that if you charecter is **dead** -- you loose it **forever**.
+
+Those effects can be removed with time, or they can be removed manually by characters with specific skills (e.g. `Surgery`).
+
+Every actor has `health restore` ability, that **heals** actor with time. This is made to allow self-restoration after fights. Also this gives a need to restore before the next fight you launch.
+
+Health leaking and restoration works even after the fight ends.
+
+## Endurence
+
+It is a representation of player's exhausment level. Kinda health and mana in a same time.
+
+If actor is out of `endurence` -- he is **exhausded** and looses conciouness. That means that you can't continue the fight physically, and can not perform any non-arena actions for some time.
+
+Restores with time, much faster then your health. If you are **in fight**, you restore both `endurence` and `health` in a same time. While you are **in lobby**, you restore you `health` first, and only then you can restore `endurence`.
+
+> So, if you are wounded -- you need to restore health and get healed first.
+> Only then you can restore andurence and fight again.
+
+Most of actions cost some endurence to perform. Cost is different. Also, every damage taken hits youe endurence constantly.
+
+Endurence restoration is resuced by wounds and other effects. Initially -- relates on stats.
+
+## Bodyparts
+
+Bodypart is made to implement attack `focusing tactics` and different damage effects to actors. Each bodypart has `goodness state` thar represents how good you are.
+
+**States possible:**
++ Ok
++ Injured
++ Wounded
++ Critical
++ Lost (permanent state)
+
+**Bodypart state effects**
+
+- Head
+    - Injured   - stats.sanity--
+    - Wounded   - health-leak
+    - Critical  - endurence = 0, large-health-leak
+    - Lost      - DEATH
+
+- Body
+    - Injured   - 
+    - Wounded   - health-leak
+    - Critical  - endurence = 0, large-health-leak
+    - Lost      - DEATH
+
+- Left hand
+    - Injured   - damage--, damageDrain--
+    - Wounded   - small-health-leak
+    - Critical  - health-leak
+    - Lost      - large-health-leak, `left hand` slot is unavailable
+
+- Right hand
+    - Injured   - damage--
+    - Wounded   - small-health-leak
+    - Critical  - health-leak
+    - Lost      - large-health-leak, `right hand` slot is unavailable
+
+- Left leg
+    - Injured   - initiative--, dodge--
+    - Wounded   - small-health-leak
+    - Critical  - health-leak
+    - Lost      - large-health-leak, can't fight
+
+- Right leg
+    - Injured   - initiative--, dodge--
+    - Wounded   - small-health-leak
+    - Critical  - health-leak
+    - Lost      - large-health-leak, can't fight

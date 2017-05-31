@@ -1,0 +1,45 @@
+
+# Leveling UP tips
+
+The only thing you earn with levelup is `development points`: `DP`.
+You waste your `DP` to improvoe your stats. Amount of DP cost per stat is floating. It depends on talents, currenmn stat level and stats relation.
+
+## DP earning
+
+You earn experience for everithing in a game. Surgery, winning, killing, loosing, training, iven just for time passing.
+
+You also earn experience for `on the edge of life` state. Every time you are critically wounded and there is hight risk of death -- you earn some `exp`.
+
+You earn `exp` for every critical thing you perform, and for every secret `talent` discovered. Also you earn some `exp` for discovert `skill node`.
+
+Every `levelup` cost same amount of experience, but every time it is harder to earn more. So, if you are skilled enought, you earn much less `exp` with time or for winning.
+
+To gain more DP you have to collect experience. When you reach some experience state you gain new `level`. Each level gives you some `DP`.
+
+> Amount of `DP` to earn:
+> `2 + level%2 + Math.floor(Math.sqrt(stats.intelligence))`
+
+## DP cost
+
+There are 3 functions that control stats cost.
+
+### Current stat level
+
+The more stats you have, the more new one will cost. Every cost rise is 5-steps further then previous, so cost ranges are following: `2..5`, `6..10`, `11..20`, `21..35`, `36..55`, `56..70`, `71..100`, `101..`.
+
+> Cost of `intelligence` is always increased with 1. 
+> e.g. if Strength 2..5 costs 1 DP, intelligence cost 2 DP.
+
+### Stats relation
+
+To make disbalanced stats development harder, there is relation handicap implemented. So, for every stat, it's cost is modified by square root of difference between current stat and the lowest one minus 1.
+
+> Stat cost relational handicap:
+> `const lowest = Math.min(stats)`
+> `const handicap = Math.min(0, Math.floor(Math.sqrt(stat-lowest)) - 1);`
+
+In general case -- if you keep stats difference < 4 you will not gain any handicap.
+
+### Talents
+
+Some talents can modify stats cost in any way. It depends only on talents designer imagination :)

@@ -1,6 +1,17 @@
 'use strict';
 
 /**
+ * Shuffles array in place. ES6 version
+ * @param  {Array} a    -- items The array containing the items.
+ */
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+}
+
+/**
  * Nests dot-notation keys of objects into hierarchy
  * @param  {Object} object  -- object with dot-notation keys
  * @return {Object}         -- nested keys object    
@@ -84,4 +95,5 @@ const hashObject = object => {
   return res;
 };
 
-module.exports = { nestKeys, randomArrayUnit, rollWithChance, rollVariety, hashObject, rollRange, };
+module.exports = { nestKeys, randomArrayUnit, rollWithChance, rollVariety, hashObject, rollRange,
+  shuffle, };

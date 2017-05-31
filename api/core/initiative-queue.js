@@ -1,9 +1,13 @@
 'use strict';
 
+const ireq = require('ireq');
+const abstract = ireq.util('abstract');
+
 class InitiativeQueue {
 
   constructor(players) {
     this.queue = [];
+    abstract.shuffle(players);    
     players.forEach(pl => {
       const initiativeCap = pl.initiative;
       this.queue.push({

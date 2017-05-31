@@ -2,22 +2,21 @@
  ☐ Add player's static effects
  ☐ Add player's active effects hooking
  ☐ Exhausded actor does not moves
- ✔ Put here event queue from hola-laptop @done (17-05-05 01:04)
- ✔ Add postprocess callback after hooks for EventQueue::tick @done (17-05-05 01:53)
- ✔ Add tick-end callback for EventQueue::tick @done (17-05-05 01:59)
- ✔ Launch Arena from API @done (17-05-04 23:29)
  ☐ Add player death check
  ☐ Add timeout-win check
+ ☐ Allow multiple damage types while rolling damage
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+ ✔ Attach timer to arena, make `now` calculations in `Actor::exhaust` @done (17-05-21 07:18)
+ ✔ Timer logic: @done (17-05-13 03:11)
+  Every event type has `timeSpent` in configuration. It defines how much time takes to perform this action.
+  Every Arena has a leaking bucket that breaks scenario calculation cycle when time limit is reached.
  ✔ Dodge-reaction @done (17-05-10 02:23)
  ✔ Block-reaction @done (17-05-10 02:23)
  ✔ Block drains damage @done (17-05-10 02:23)
  ✔ Player desision must generate more detailed events @done (17-05-07 00:55)
- ✔ Timer logic: @done (17-05-13 03:11)
-   Every event type has `timeSpent` in configuration. It defines how much time takes to perform this action.
-   Every Arena has a leaking bucket that breaks scenario calculation cycle when time limit is reached.
- ✔ Attach timer to arena, make `now` calculations in `Actor::exhaust` @done (17-05-21 07:18)
- ☐ Allow multiple damage types while rolling damage
-
-   Inventory:
-     ☐ Implement inventory slots
-       For now onlu left and right hand
+ ✔ Add tick-end callback for EventQueue::tick @done (17-05-05 01:59)
+ ✔ Add postprocess callback after hooks for EventQueue::tick @done (17-05-05 01:53)
+ ✔ Put here event queue from hola-laptop @done (17-05-05 01:04)
+ ✔ Launch Arena from API @done (17-05-04 23:29)

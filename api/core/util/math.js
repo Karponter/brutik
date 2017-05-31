@@ -32,11 +32,12 @@ module.exports = abstract.nestKeys({
   },
 
   'attempt.of.block': (brute, victim) => {
-    const chance = 0.1 + Math.max(0, victim.stats.strength - brute.stats.strength)*0.1;
+    const chance = 0.1 + Math.max(0, victim.stats.strength - brute.stats.strength)*0.05;
     return _roll(chance);
   },
 
-  'actor.calc.endurance': brute => 30,
+  'actor.calc.endurance': brute =>
+    30 + brute.stats.stamina*5,
 
   'block.drain': (brute, victim, damage) =>
     Math.ceil(damage/10),

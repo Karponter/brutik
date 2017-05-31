@@ -7,8 +7,6 @@ class Event {
 
   constructor(data) {
     _props.forEach(p => this[p] = data[p]);
-    if (this.actor)
-      this.cost = this.actor
   }
 
   dump() {

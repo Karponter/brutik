@@ -1,0 +1,27 @@
+
+# Effects tips
+
+**Effects** are temporary or permanent modifications of actor's state. Can be both positive and negative.
+
+## Permanent effects
+
++ **Right hand loss** -- So... You lost your right hand. Bare this. Most likely, you can't use any item that relates on what you lost. Be carefull next time!
+
++ **Left hand loss** -- So... You lost your left hand. Bare this. Most likely, you can't use any item that relates on what you lost. Be carefull next time!
+
++ **Leg lost** -- You lost your leg. It's ok, don't worry. Let's call this situation... Survivable, but not more then that. You can't fight anymore.
+
+## Temporary efefcts
+
++ **Wounded** -- Character looses his `health` with time. Bleeding speed depends on wond depth (light, deep, critical). Effect is temporar but stays after fight is over. Removes with time, but is character's `health` falls to 0, charactet diest permanently. Can be removed with `Surgery` skill by another character.
+
++ **Healing** -- Character restores his health. Can be only casted by another allied character `out of fight`. Must be supported by caster. That means one heal can't heal multiple characters. Used to not let wounded players die, untill their wounds will be healed.
+
++ **Disoriented** -- Character is disoriented and can't react properly. 
+    `-10% of dodge chance`, 
+    `-5% of block chance`, 
+    `-15% of counterattack chance`, 
+    `-2 initiative`.
+
++ **Suppressed** -- Character is dismoralized by enemy's charisma.
+    `-20% sanity`

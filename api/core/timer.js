@@ -33,7 +33,6 @@ class Timer {
 
   tick(time, measure) {
     this.ts += this.normalizeWithMeasure(time, measure);
-    console.log('\t\t\t\t----- ', this.getTime(measure));
   }
 
   getTime(measure) {

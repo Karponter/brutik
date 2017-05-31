@@ -24,12 +24,12 @@ const drawPercent = (percent, msg) => {
   const length = Math.floor(percent*10);
   let filled = (new Array(2*length)).fill('=').join('');
   let empty = (new Array(20-2*length)).fill('-').join('');
-  console.log(`\t\t\t\t${msg}:\t<${filled}${empty}>`);
+  // console.log(`\t\t\t\t${msg}:\t<${filled}${empty}>`);
 }
 
 class Actor {
 
-  /** --------------------------------------------------------------------- Constructor here ---- */
+  /** ------------------------------------------------ Constructor here ---- */
 
   constructor(options) {
     options = options || {};
@@ -37,14 +37,15 @@ class Actor {
 
     this.maxHealth = 30;
     this.health = 30;
+    this.id = options.id || genId();
+    this.stats = Object.assign({}, options.stats);
+
     // amount of endurance player gains per in-game second
     this.enduranceRegain = 0.5;
     this.enduranceWasteCoeficient = 1;
     this.enduranceCap = mathUtils.actor.calc.endurance(this);
     this.endurance = this.enduranceCap;
 
-    this.id = genId();
-    this.stats = Object.assign({}, options.stats);
     this.initiative = mathUtils.initiative.cap.of(this);
 
     this.body = {
@@ -62,7 +63,7 @@ class Actor {
     this._exhaustmentTs = 0;
   }
 
-  /** --------------------------------------------------------------------------- Logic here ---- */
+  /** ------------------------------------------------------ Logic here ---- */
 
   /**
    * Actor's event emitting desicions.
@@ -88,7 +89,7 @@ class Actor {
     const timePass = ts - this._exhaustmentTs;
     this._exhaustmentTs = ts;
     const amount = timePass * this.enduranceRegain;
-    console.log('Resting:', this.endurance, amount);
+    // console.log('Resting:', this.endurance, amount);
     this.endurance = Math.min(this.enduranceCap, this.endurance + amount);
   }
 
@@ -100,7 +101,7 @@ class Actor {
   exhaust(event) {
     const now = event.ts.end;
     this.rest(now);
-    console.log('Damaging:', this.endurance, event.value, this.endurance - event.value);
+    // console.log('Damaging:', this.endurance, event.value, this.endurance - event.value);
     this.endurance = Math.max(0, this.endurance - event.value);
     drawPercent(this.endurance/this.enduranceCap, `Pl${this.id}`);
   }
@@ -132,7 +133,7 @@ class Actor {
     });
   }
 
-  /** ----------------------------------------------------------------------- Oneliners here ---- */
+  /** -------------------------------------------------- Oneliners here ---- */
 
   setOpponents(opponents) {
     this.opponents = opponents;

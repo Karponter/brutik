@@ -1,15 +1,8 @@
 'use strict';
 
+require('./ireq-init');
 const express = require('express');
 const app = express();
-
-const ireq = require('ireq');
-ireq.bind('core', '/core');
-ireq.bind('util', '/core/util');
-ireq.bind('event', '/core/events');
-ireq.bind('config', '/core/config');
-ireq.bind('item', '/core/items');
-ireq.bind('const', '/core/constants');
 
 const Arena = require('./core/arena');
 

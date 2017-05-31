@@ -67,8 +67,6 @@ class Arena {
    */
   launch(cb) {
     const _arena = this;
-    console.log(`- initial players: ${this.playersStanding()}`);
-    console.log(`- EQ: exhausted: ${this.events.isExhausted()}`);
 
     // adding new events if queue isempty
     function kickSomeone() {
@@ -88,7 +86,6 @@ class Arena {
 
     function eventProcessor(event) {
       const _tgt = event.target ? event.target.id : 'X';
-      console.log(event.type, event.actor.id, '==>', _tgt, `(${event.value})`);
       _arena.confirmMotion(event);
     }
 
