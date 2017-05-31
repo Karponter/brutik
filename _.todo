@@ -1,10 +1,22 @@
+Commitment:
+EFFECTS RUSH
+ ☐ test and apply effect queue
+ ☐ Allow multiple damage types while rolling damage
+ ☐ damage type critical chance depends on foucsed bodypart
+ ☐ fill damage types db
+ ☐ implement damaging crits (effect applied to victim, deepends on damage type)
+ ☐ bodypart effects applying
+   ☐ STEP 1: 1 shot -- 1 effect
+     Tick bodypart effect up after each hit to it. Apply new effect.
+   ☐ STEP 2: tick veriety
+     Think about how tocalculate bodypart handicap ticks. This should relate on stamina, recieved damage, cpecific to each bodypart veriety
+
  ☐ Add player capitulation
  ☐ Add player's static effects
  ☐ Add player's active effects hooking
  ☐ Exhausded actor does not moves
  ☐ Add player death check
  ☐ Add timeout-win check
- ☐ Allow multiple damage types while rolling damage
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
