@@ -1,9 +1,9 @@
 'use strict';
 const mocha = require('mocha');
 const should = require('should');
-const EventQueue = require('./event-queue');
+const EventQueue = require('./../core/effects/effects-host');
 
-describe('Event Queue testing', () => {
+describe('Event Host testing', () => {
 
     const queue = new EventQueue();
     const eventTypes = ['type1', 'hello', 'test', 'creep-event'];
@@ -61,5 +61,7 @@ describe('Event Queue testing', () => {
         queue.tick().should.be.deepEqual(['fired']);
         queue.tick().should.be.deepEqual([]);
     });
+
+    it('', );
 
 });

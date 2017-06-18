@@ -1,13 +1,24 @@
 'use strict';
 
+// @todo: need to implement Effect and Adapter classes.
+// ::add function should check use all effect types (like set, mod, etc)
+// ::add function should subscribe hooks to this.
+// This is how effect hooks will be implemented
+
+const assert = require('assert');
+
+// ------------------------------------------------ local utils ---- 
+
 function _setter (instance, property, value) {
     instance[property] = value || {};
     return instance;
 }
 
 // @todo: hack
-const _gen_id = () => Date.now();
+let counter = 0;
+const _gen_id = () => ++counter;
 
+// ------------------------------------------------------ class ---- 
 class EffectsHost {
 
     /**
@@ -18,12 +29,12 @@ class EffectsHost {
      */
     constructor(opt) {
         opt = opt || {};
+        this._setter = _setter.bind(null, this);
+        this._effects = {};
+        this._watchers = {};
         this.setAdapterHash(opt.adapter);
         this.setDependant(opt.dependant);
         this.setTs(opt.ts);
-        this._setter = _setter.bind(this);
-        this.effects = {};
-        this.watchers = {};
     }
 
     /**
@@ -32,8 +43,8 @@ class EffectsHost {
      * @param  {string} event   -- emitted event
      * @return {EffectsHost}    -- this
      */
-    emitEvent(event) {
-        const watchers = this.watchers[event] || [];
+    emit(event) {
+        const watchers = this._watchers[event] || [];
         watchers.forEach(cb => cb(this.dependant));
         return this;
     }
@@ -46,9 +57,9 @@ class EffectsHost {
      * @return {EffectsHost}       -- this
      */
     subscribe(event, callback) {
-        if (!this.watchers[event])
-            this.watchers[event] = [];
-        this.watchers[event].push(callback);
+        if (!this._watchers[event])
+            this._watchers[event] = [];
+        this._watchers[event].push(callback);
         return this;
     }
 
@@ -70,7 +81,7 @@ class EffectsHost {
      * @return {EffectsHost}        -- this
      */
     setDependant(dependant) {
-        return this._setter('_dependant', hash);
+        return this._setter('_dependant', dependant);
     }
 
     /**
@@ -90,25 +101,28 @@ class EffectsHost {
      * @param {Number} amount   -- change value 
      * @return {EffectsHost}    -- this
      */
-    modDependant(key, amount) {
-        const adoptedKey = this.adapter[key] || key;
-        assert(amount typeof Number, `Amount must be numeric for key ${key}`);
-        this.dependant[adoptedKey] += amount;
+    modDependant(key, amount, type = 'mod') {
+        const adoptedKey = this._adapter[key] || key;
+        if (this._dependant[adoptedKey]===undefined)
+            return this;
+        if (type == 'mod')
+            amount += this._dependant[adoptedKey];
+        this._dependant[adoptedKey] = amount;
         return this;
     }
 
     /**
      * Adds effect to host, processes effect modifiers to dependant object
-     * @param  {[type]} effect  -- effect to be added
+     * @param  {Effect} effect  -- effect to be added
      * @return {String}         -- id of added event
      */
     add(effect) {
-        const effectId = _gen_id+'';
+        const effectId = effect.id;
         this._effects[effectId] = effect;
-        // @todo: code duplication
-        for (let key in effect) {
-            this.modDependant(key, -effect[key]);
-        }
+        Object.keys(effect.impact).forEach(type => {
+            const _impact = effect.impact[type];
+            _impact.forEach(i => this.modDependant(i.property, i.value, type));
+        }); 
         return effectId;
     }
 
@@ -117,12 +131,10 @@ class EffectsHost {
      * @param  {String} effectId    -- id of effect to remove
      */
     remove(effectId) {
-        const effect = this._effects[effectId];
-        // @todo: code duplication
-        for (let key in effect) {
-            this.modDependant(key, -1 * effect[key]);
-        }
+        const modImpact = this._effects[effectId].impact.mod;
         delete this._effects[effectId];
+        if (!modImpact) return;
+        modImpact.forEach(_impact => this.modDependant(_impact.property, -1 * _impact.value));
     }
 
     /**

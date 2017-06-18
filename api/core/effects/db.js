@@ -7,7 +7,8 @@ module.exports = {
 
   // bleeding
   'bleeding': {
-    effect: {
+    title: 'bleeding',
+    impact: {
       healthRegen: { set: 0 },
       endurence: { mod: -1 },
       health: { tick: -1 }
@@ -17,7 +18,7 @@ module.exports = {
 
   // heavy bleeding
   'heavyBleeding': {
-    effect: {
+    impact: {
       healthRegen: { set: 0 },
       endurence: { mod: -3 },
       health: { tick: -2 }
@@ -27,7 +28,7 @@ module.exports = {
 
   // stunning
   'stun': {
-    effect: {
+    impact: {
       initiative: { set: 0 }
     },
     duration: 5 * TIME.SECOND

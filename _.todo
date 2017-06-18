@@ -1,5 +1,7 @@
 Commitment:
- ☐ test and apply effect queue
+ ✔ test and apply effect host (unittests) @done (17-06-02 18:07)
+ ☐ motify EffectHost::add function to work with Effect instances  .\effect-host.js\
+ ☐ Implement Effect and Adapter classes
  ☐ Allow multiple damage types while rolling damage
  ☐ damage type critical chance depends on foucsed bodypart
  ☐ fill damage types db
@@ -8,7 +10,7 @@ Commitment:
    ☐ STEP 1: 1 shot -- 1 effect
      Tick bodypart effect up after each hit to it. Apply new effect.
    ☐ STEP 2: tick veriety
-     Think about how tocalculate bodypart handicap ticks. This should relate on stamina, recieved damage, cpecific to each bodypart veriety
+     Think about how to calculate bodypart handicap ticks. This should relate on stamina, recieved damage, cpecific to each bodypart veriety
 
  ☐ Add player capitulation
  ☐ Add player's static effects
