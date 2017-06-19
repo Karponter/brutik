@@ -78,3 +78,12 @@ Bodypart is made to implement attack `focusing tactics` and different damage eff
     - Wounded   - small-health-leak
     - Critical  - health-leak
     - Lost      - large-health-leak, can't fight
+    
+## Crits
+
+Every damage type has it's own critical effects to an opponents body.
+
+Note: critical damage into head are a bit more complicated.
+Crushing crit into head do stun (initiative is set to 0). The chance of crit is much higher, but also it is much lower if you were a helmet.
+
+More detaied critical effects you can find in file`/api/core/damage/damage-type-db.js`.

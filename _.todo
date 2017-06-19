@@ -1,23 +1,31 @@
 Commitment:
  ✔ test and apply effect host (unittests) @done (17-06-02 18:07)
- ☐ motify EffectHost::add function to work with Effect instances  .\effect-host.js\
- ☐ Implement Effect and Adapter classes
- ☐ Allow multiple damage types while rolling damage
- ☐ damage type critical chance depends on foucsed bodypart
- ☐ fill damage types db
+ ✔ motify EffectHost::add function to work with Effect instances  .\effect-host.js\ @done (17-06-18 22:51)
+ ✔ Implement Effect and Adapter classes @done (17-06-18 22:51)
+ ✔ Allow multiple damage types while rolling damage @done (17-06-18 22:55)
+ ✔ fill damage types db @done (17-06-19 01:08)
+ ✔ implement weapon class @done (17-06-19 04:00)
  ☐ implement damaging crits (effect applied to victim, deepends on damage type)
+ ☐ implement repository
+ ☐ implement weapon repository
+Bodyparts:
+ ✔ damage type critical chance depends on foucsed bodypart @done (17-06-19 00:44)
  ☐ bodypart effects applying
    ☐ STEP 1: 1 shot -- 1 effect
      Tick bodypart effect up after each hit to it. Apply new effect.
    ☐ STEP 2: tick veriety
      Think about how to calculate bodypart handicap ticks. This should relate on stamina, recieved damage, cpecific to each bodypart veriety
-
+   ☐ STEP 3: forced tick
+     there is wayto trigger state tick 
  ☐ Add player capitulation
  ☐ Add player's static effects
  ☐ Add player's active effects hooking
  ☐ Exhausded actor does not moves
  ☐ Add player death check
  ☐ Add timeout-win check
+ ☐ EffectHost::tick add effects ticking processing and duration check
+ ☐ EffectHost::setAdapterHash implement adapter class
+ ☐ Implement `whatch` impact type
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:

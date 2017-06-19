@@ -4,44 +4,32 @@ const ireq = require('ireq');
 const WEAPON = ireq.const('weapon');
 const DT = WEAPON.DT;
 
-// durability -1 means infinite durability
-// rarity is `common` be default
-// damage variety is 1 be default
+const abstract = ireq.util('abstract');
 
-module.exports = {
+class Weapon {
 
-  'fist': {
-    damage: [
-      {
-        type: DT.crushing,
-        power: [5, 10],
-        variety: 1
-      },
-    ],
-    weigth: 1,
-    durability: -1,
-  },
+    constructor(spec) {
+        Object.assign(this, spec);
+        this.DTVariety = {};
+        this.damage.forEach((dmg, i) => this.DTVariety[i+''] = dmg.variety);
+    }
 
-  'knife': {
-    damage: [
-      {
-        type: DT.slashing,
-        power: [10, 15],
-      },
-    ],
-    weigth: 2,
-    durability: 100,
-  },
+    rollDamage() {
+        const DT = this.rollDamageType();
+        return {
+            power: Math.round(abstract.rollRange(DT.power)),
+            type: DT.type,
+        };
+    }
 
-  'stick': {
-    damage: [
-      {
-        type: DT.crushing,
-        power: [13, 18],
-      },
-    ],
-    weigth: 3,
-    durability: 60,
-  },
+    rollDamageType() {
+        const damageKey = abstract.rollVariety(this.DTVariety);
+        return this.damage[damageKey];
+    }
 
-};
+}
+
+const weaponDB = require('./weapon-db');
+const loaded_weapons = weaponDB.map(spec => new Weapon(spec));
+
+module.exports = loaded_weapons;

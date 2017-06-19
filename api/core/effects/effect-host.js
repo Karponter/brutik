@@ -1,10 +1,5 @@
 'use strict';
 
-// @todo: need to implement Effect and Adapter classes.
-// ::add function should check use all effect types (like set, mod, etc)
-// ::add function should subscribe hooks to this.
-// This is how effect hooks will be implemented
-
 const assert = require('assert');
 
 // ------------------------------------------------ local utils ---- 
@@ -117,6 +112,7 @@ class EffectsHost {
      * @return {String}         -- id of added event
      */
     add(effect) {
+        // @todo ::add function should subscribe hooks to this.
         const effectId = effect.id;
         this._effects[effectId] = effect;
         Object.keys(effect.impact).forEach(type => {
@@ -134,7 +130,7 @@ class EffectsHost {
         const modImpact = this._effects[effectId].impact.mod;
         delete this._effects[effectId];
         if (!modImpact) return;
-        modImpact.forEach(_impact => this.modDependant(_impact.property, -1 * _impact.value));
+        modImpact.forEach(i => this.modDependant(i.property, -1 * i.value));
     }
 
     /**
@@ -144,7 +140,7 @@ class EffectsHost {
      * @return {EffectsHost}    -- this
      */
     tick(ts) {
-        // @todo
+        // @todo add effects ticking processing and duration check
         return this;
     }
 }
