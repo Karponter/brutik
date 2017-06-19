@@ -2,7 +2,8 @@
 
 const ireq = require('ireq');
 const abstract = require('./abstract');
-const timings = ireq.config('motions-timing.json');
+const DAMAGE = ireq.damage('damage-type-db');
+const BODY = ireq.const('body');
 
 const _roll = abstract.rollWithChance;
 
@@ -20,6 +21,23 @@ module.exports = abstract.nestKeys({
     // stats difference
     let damage = baseDmg + (brute.stats.strength - victim.stats.stamina) * 2;
     return {power: damage, type: _rolled.type};
+  },
+
+  'attempt.of.crit': (brute, victim, damage, focus) => {
+    const report = {
+      damage: {type: damage.type, power: damage.power},
+      effects: [],
+      isCritical: false,
+    };
+    const targeted = BODY.resolve(focus);
+    const critSpec = DAMAGE[damage.type].crit[BODY.resolve(targeted)] ? targeted : 'default';
+    const chance = critSpec.chance;
+    if (!_roll(chance))
+      return report;
+    report.isCritical = true;
+    report.damage.power *= critSpec.damageX;
+    repost.effects = critSpec.effects;
+    return report; 
   },
 
   'attempt.of.dodge': (brute, victim) => {

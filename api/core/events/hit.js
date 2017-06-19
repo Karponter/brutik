@@ -1,9 +1,13 @@
 'use strict';
 
+const ireq = require('ireq');
+const mathUtils = ireq.util('math');
+
 const Event = require('./event');
 const DamageEvent = require('./damage');
 const BlockEvent = require('./block');
 const DodgeEvent = require('./dodge');
+const EffectApplyEvent = require('./effect-apply');
 
 class HitEvent extends Event {
 
@@ -12,12 +16,22 @@ class HitEvent extends Event {
   }
 
   morphToDamage(drained, forceNoCrit) {
-    const damage = drained || this.value;
+    const damage = {
+      type: this.value.type,
+      power: drained || this.value.power,
+    };
     const event = new DamageEvent(this.actor, this.target, damage, this.focus);
     if (forceNoCrit)
       return event;
-    // crit calculations here, go to math
-    return event; 
+    const report = mathUtils.attempt.of.crit(this.actor, this.target, damage, this.focus);
+    if (!report.isCritical)
+      return event;
+    event.damage.power = report.damage.power;
+    // pushing siblings to effect
+    report.effects.forEach(effect => {
+      event.siblings.push(new EffectApplyEvent(this.target, effect));
+    });
+    return event;
   }
 
   morphToBlock() {

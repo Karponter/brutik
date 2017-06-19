@@ -7,6 +7,7 @@ const mathUtils = ireq.util('math');
 const targeting = ireq.util('targeting');
 
 const WEAPON = ireq.repository('weapon-repo');
+const EFFECT = ireq.repository('effect-repo');
 
 const Event = require('./events/event');
 const MoveEvent = require('./events/move');
@@ -75,7 +76,7 @@ class Actor {
     const focus = targeting.get.focus(this, target);
     return [
       new MoveEvent(this, target),
-      new HitEvent(this, target, damage.power, focus),
+      new HitEvent(this, target, damage, focus),
       new MoveBackEvent(this),
     ];
   }
@@ -101,8 +102,8 @@ class Actor {
   exhaust(event) {
     const now = event.ts.end;
     this.rest(now);
-    // console.log('Damaging:', this.endurance, event.value, this.endurance - event.value);
-    this.endurance = Math.max(0, this.endurance - event.value);
+    // console.log('Damaging:', this.endurance, event.value.power, this.endurance - event.value.power);
+    this.endurance = Math.max(0, this.endurance - event.value.power);
     drawPercent(this.endurance/this.enduranceCap, `Pl${this.id}`);
   }
 
@@ -111,8 +112,11 @@ class Actor {
    * @param  {EventQueue} eventQueue -- arena-wide event queue to subscribe
    */
   hook(eventQueue) {
-    eventQueue.listen('hit', event => {
-      if (event.target.id != this.id) return;
+    const _hook = cb => e => {
+      if (e.target.id != this.id) return;
+      return cb(e);
+    };
+    eventQueue.listen('hit', _hook(event => {
       // dodge
       if (mathUtils.attempt.of.dodge(event.actor, event.target)) {
         return eventQueue.emit(event.morphToDodge());
@@ -126,11 +130,13 @@ class Actor {
       }
       // take damage
       eventQueue.emit(event.morphToDamage());
-    });
-    eventQueue.listen('damage', event => {
-      if (event.target.id != this.id) return;
+    }));
+    eventQueue.listen('damage', _hook(event => {
       this.exhaust(event);
-    });
+    }));
+    eventQueue.listen('effect-apply', _hook(event => {
+      this.effectHost.add(EFFECT.get(event.value));
+    }));
   }
 
   /** -------------------------------------------------- Oneliners here ---- */

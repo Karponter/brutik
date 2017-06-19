@@ -8,17 +8,17 @@ const DT = WEAPON.DT;
 // DT Structure
 // - title: just a name
 // - crit: hash of critical effects
-// -- effect: add this effect if crit happens
+// -- effects: add this effects if crit happens
 // -- state: set at least this state if crit happens
 // -- damageX: damage multiplicator
 // -- chance: critical damage chance
 
 module.exports = {
-  DT.crushing: {
+  [DT.crushing]: {
     title: 'crushing',
     crit: {
-      BODY.head: {
-        effect: 'stun',
+      [BODY.head]: {
+        effects: ['stun'],
         damageX: 2,
         chance: 0.2,
       },
@@ -29,11 +29,11 @@ module.exports = {
       },
     },
   },
-  DT.slashing: {
+  [DT.slashing]: {
     title: 'slashing',
     crit: {
-      BODY.head: {
-        effect: 'death',
+      [BODY.head]: {
+        effects: ['death'],
         damageX: 2,
         chance: 0.2,
       },

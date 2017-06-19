@@ -5,20 +5,23 @@ Commitment:
  ✔ Allow multiple damage types while rolling damage @done (17-06-18 22:55)
  ✔ fill damage types db @done (17-06-19 01:08)
  ✔ implement weapon class @done (17-06-19 04:00)
- ☐ implement damaging crits (effect applied to victim, deepends on damage type)
+ ✔ implement damaging crits (effect applied to victim, deepends on damage type) @done (17-06-20 01:37)
    ✔ add event's siblings @done (17-06-19 04:54)
    list of events that are emmited right after
-   ☐ check crit and add siblings if needed
+   ✔ check crit and add siblings if needed @done (17-06-20 00:32)
    HitEvent::morphToDamage()
    ✔ add `force no crit` flag @done (17-06-19 05:00)
    HitEvent::morphToDamage()
    to ensure block wont spam crits
+   ✔ EffectApply event reaction @done (17-06-20 01:37)
  ✔ implement repository @done (17-06-19 04:03)
  ✔ implement weapon repository @done (17-06-19 04:14)
  ☐ debug event morphing and constructing
  There is obviouslysomething wrong
 Bodyparts:
  ✔ damage type critical chance depends on foucsed bodypart @done (17-06-19 00:44)
+ ☐ implement damage class
+   {type, power}
  ☐ bodypart effects applying
    ☐ STEP 1: 1 shot -- 1 effect
      Tick bodypart effect up after each hit to it. Apply new effect.

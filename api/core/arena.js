@@ -16,7 +16,8 @@ const interpolateOpponents = (actors, stratagy) => {
   });
 }
 
-const eventTypes = ['move', 'hit', 'damage', 'dodge', 'block'];
+const eventTypes = ['move', 'hit', 'damage', 'dodge', 'block',
+  'effect-apply'];
 // Registeres list of event types on event queue
 const registerEventTypes = queue =>
   eventTypes.forEach(t => queue.register(t));  
