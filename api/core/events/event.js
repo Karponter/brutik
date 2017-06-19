@@ -7,6 +7,7 @@ class Event {
 
   constructor(data) {
     _props.forEach(p => this[p] = data[p]);
+    this.siblings = [];
   }
 
   dump() {

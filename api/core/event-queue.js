@@ -50,6 +50,7 @@ class EventQueue {
     emit(event) {
         this.assertRegistred(event.type);
         this._queue.push(event);
+        event.siblings.forEach(s => this.emit(s));
     }
 
     /**

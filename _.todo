@@ -6,15 +6,17 @@ Commitment:
  ✔ fill damage types db @done (17-06-19 01:08)
  ✔ implement weapon class @done (17-06-19 04:00)
  ☐ implement damaging crits (effect applied to victim, deepends on damage type)
-   ☐ add event's siblings
+   ✔ add event's siblings @done (17-06-19 04:54)
    list of events that are emmited right after
    ☐ check crit and add siblings if needed
    HitEvent::morphToDamage()
-   ☐ add `force no crit` flag
+   ✔ add `force no crit` flag @done (17-06-19 05:00)
    HitEvent::morphToDamage()
    to ensure block wont spam crits
  ✔ implement repository @done (17-06-19 04:03)
  ✔ implement weapon repository @done (17-06-19 04:14)
+ ☐ debug event morphing and constructing
+ There is obviouslysomething wrong
 Bodyparts:
  ✔ damage type critical chance depends on foucsed bodypart @done (17-06-19 00:44)
  ☐ bodypart effects applying

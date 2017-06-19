@@ -121,7 +121,7 @@ class Actor {
       if (mathUtils.attempt.of.block(event.actor, event.target)) {
         const drainedDamage = mathUtils.block.drain(event.actor, this, event.value);
         eventQueue.emit(event.morphToBlock());  
-        eventQueue.emit(event.morphToDamage(drainedDamage));
+        eventQueue.emit(event.morphToDamage(drainedDamage, true));
         return;
       }
       // take damage

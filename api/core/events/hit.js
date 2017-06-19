@@ -11,9 +11,13 @@ class HitEvent extends Event {
     super({type: 'hit', target, actor, value, focus});
   }
 
-  morphToDamage(drained) {
+  morphToDamage(drained, forceNoCrit) {
     const damage = drained || this.value;
-    return new DamageEvent(this.actor, this.target, damage, this.focus);
+    const event = new DamageEvent(this.actor, this.target, damage, this.focus);
+    if (forceNoCrit)
+      return event;
+    // crit calculations here, go to math
+    return event; 
   }
 
   morphToBlock() {
