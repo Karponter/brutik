@@ -6,8 +6,7 @@ const abstractUtils = ireq.util('abstract');
 const mathUtils = ireq.util('math');
 const targeting = ireq.util('targeting');
 
-const weapon = ireq.item('weapon');
-const fist = weapon.fist;
+const WEAPON = ireq.repository('weapon-repo');
 
 const Event = require('./events/event');
 const MoveEvent = require('./events/move');
@@ -58,6 +57,7 @@ class Actor {
     };
 
     this.inventory = {};
+    this.fist = WEAPON.get('fist');
 
     this.opponents = [];
     this._exhaustmentTs = 0;
@@ -75,7 +75,7 @@ class Actor {
     const focus = targeting.get.focus(this, target);
     return [
       new MoveEvent(this, target),
-      new HitEvent(this, target, damage, focus),
+      new HitEvent(this, target, damage.power, focus),
       new MoveBackEvent(this),
     ];
   }
@@ -150,7 +150,7 @@ class Actor {
   getWeapon() {
     if (this.inventory.rightHand)
       return this.inventory.rightHand;
-    return fist;
+    return this.fist;
   }
 }
 

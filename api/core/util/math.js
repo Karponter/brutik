@@ -5,7 +5,6 @@ const abstract = require('./abstract');
 const timings = ireq.config('motions-timing.json');
 
 const _roll = abstract.rollWithChance;
-const _rollDamage = power => Math.round(abstract.rollRange(power));
 
 module.exports = abstract.nestKeys({
 
@@ -16,14 +15,11 @@ module.exports = abstract.nestKeys({
   'damage.to': (brute, victim) => {
     // getting base weapon damage
     const weapon = brute.getWeapon();
-    const variety = {};
-    weapon.damage.forEach((dmg, i) => variety[i+''] = dmg.variety);
-    const damageKey = abstract.rollVariety(variety);
-    const power = weapon.damage[parseInt(damageKey)].power;
-    const baseDmg = _rollDamage(power);
+    const _rolled = weapon.rollDamage();
+    const baseDmg = _rolled.power;
     // stats difference
     let damage = baseDmg + (brute.stats.strength - victim.stats.stamina) * 2;
-    return damage;
+    return {power: damage, type: _rolled.type};
   },
 
   'attempt.of.dodge': (brute, victim) => {

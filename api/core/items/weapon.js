@@ -29,7 +29,4 @@ class Weapon {
 
 }
 
-const weaponDB = require('./weapon-db');
-const loaded_weapons = weaponDB.map(spec => new Weapon(spec));
-
-module.exports = loaded_weapons;
+module.exports = Weapon;

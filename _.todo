@@ -6,8 +6,15 @@ Commitment:
  ✔ fill damage types db @done (17-06-19 01:08)
  ✔ implement weapon class @done (17-06-19 04:00)
  ☐ implement damaging crits (effect applied to victim, deepends on damage type)
- ☐ implement repository
- ☐ implement weapon repository
+   ☐ add event's siblings
+   list of events that are emmited right after
+   ☐ check crit and add siblings if needed
+   HitEvent::morphToDamage()
+   ☐ add `force no crit` flag
+   HitEvent::morphToDamage()
+   to ensure block wont spam crits
+ ✔ implement repository @done (17-06-19 04:03)
+ ✔ implement weapon repository @done (17-06-19 04:14)
 Bodyparts:
  ✔ damage type critical chance depends on foucsed bodypart @done (17-06-19 00:44)
  ☐ bodypart effects applying
