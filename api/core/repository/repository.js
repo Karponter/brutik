@@ -51,13 +51,6 @@ module.exports = class Repository {
             throw new UnknownIdError(this.type, this.id, id);
     }
 
-    register (object) {
-        this.assertReady();
-        object._id = dataSource.insert(object);
-        this.hash[object._id] = object;
-        return object._id;
-    }
-
     cache (id) {
         this.assertReady();
         if (this.hash[id] !== undefined) 
